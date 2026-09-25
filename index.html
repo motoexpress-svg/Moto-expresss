@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Moto Express - Servicio y mantenimiento de motos hasta 200cc.">
+<title>Moto Express | Servicio de motos</title>
+<style>
+:root{--bg:#080b0f;--panel:#10151b;--text:#f4f7fa;--muted:#aab4bf;--accent:#20d66b;--accent2:#0fa957;--line:#202933}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+a{text-decoration:none;color:inherit}
+.container{width:min(1120px,92%);margin:auto}
+header{position:fixed;top:0;left:0;right:0;z-index:20;background:rgba(8,11,15,.84);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.25rem;font-weight:900;letter-spacing:.4px}.logo span{color:var(--accent)}
+.navlinks{display:flex;gap:24px;color:#c8d0d8;font-size:.95rem}
+.navlinks a:hover{color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:999px;font-weight:800;border:1px solid transparent;transition:.2s}
+.btn-primary{background:var(--accent);color:#041109}.btn-primary:hover{background:#39e97d;transform:translateY(-1px)}
+.btn-outline{border-color:#34404c;color:#fff}.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.hero{min-height:760px;padding:145px 0 80px;display:grid;grid-template-columns:1.03fr .97fr;gap:48px;align-items:center;background:radial-gradient(circle at 75% 30%,rgba(32,214,107,.13),transparent 35%)}
+.eyebrow{color:var(--accent);font-weight:900;text-transform:uppercase;letter-spacing:2px;font-size:.78rem;margin-bottom:15px}
+h1{font-size:clamp(2.5rem,6vw,5rem);line-height:.98;letter-spacing:-3px;margin-bottom:24px}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:610px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.hero-card{position:relative;min-height:560px;border-radius:30px;overflow:hidden;border:1px solid #26313c;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.hero-card img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.hero-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.8))}
+.hero-badge{position:absolute;z-index:2;left:22px;bottom:22px;background:rgba(7,10,13,.82);border:1px solid rgba(255,255,255,.12);padding:15px 17px;border-radius:18px;backdrop-filter:blur(8px)}
+.hero-badge strong{display:block;font-size:1.15rem}.hero-badge span{color:var(--muted);font-size:.9rem}
+section{padding:88px 0}.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:34px}
+h2{font-size:clamp(2rem,4vw,3rem);letter-spacing:-1.5px}.section-head p{color:var(--muted);max-width:540px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:25px}
+.card .icon{font-size:1.8rem;margin-bottom:15px}.card h3{font-size:1.15rem;margin-bottom:7px}.card p{color:var(--muted)}
+.price{font-size:1.6rem;font-weight:900;margin-top:15px}.price small{font-size:.85rem;color:var(--muted);font-weight:600}
+.highlight{border-color:rgba(32,214,107,.45);box-shadow:0 0 0 1px rgba(32,214,107,.06) inset}
+.gallery{display:grid;grid-template-columns:1.3fr .7fr .7fr;grid-auto-rows:230px;gap:14px}
+.gallery img{width:100%;height:100%;object-fit:cover;border-radius:20px;border:1px solid var(--line)}
+.gallery img:first-child{grid-row:span 2}
+.band{background:linear-gradient(110deg,#0d1712,#0b1015);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cta{display:flex;justify-content:space-between;align-items:center;gap:25px}.cta p{color:var(--muted);margin-top:7px}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.contact-card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:30px}.contact-row{display:flex;gap:14px;align-items:center;margin:18px 0;color:#d8dee4}.contact-row b{display:block;color:#fff}.contact-row span{color:var(--muted)}
+footer{padding:30px 0;border-top:1px solid var(--line);color:#87929d;font-size:.9rem}
+@media(max-width:850px){.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:120px}.hero-card{min-height:430px}.grid,.contact{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr;grid-auto-rows:190px}.gallery img:first-child{grid-row:span 1}.cta{flex-direction:column;align-items:flex-start}}
+@media(max-width:520px){h1{letter-spacing:-2px}.hero-card{min-height:360px}.gallery{grid-template-columns:1fr}.gallery img{height:250px}.actions .btn{width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="#">Moto <span>Express</span></a>
+    <nav class="navlinks">
+      <a href="#servicios">Servicios</a><a href="#precios">Precios</a><a href="#trabajos">Trabajos</a><a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn-primary" href="https://wa.me/5491153245381?text=Hola%20Moto%20Express%2C%20quiero%20consultar%20por%20un%20servicio%20para%20mi%20moto." target="_blank">WhatsApp</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="container" style="width:100%">
+    <div>
+      <div class="eyebrow">Servicio y mantenimiento de motos</div>
+      <h1>Tu moto lista para volver a la ruta.</h1>
+      <p>Mantenimiento, ajustes y reparaciones para motos de hasta 200cc. Atención coordinada y trabajo pensado para que tu moto funcione como corresponde.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://wa.me/5491153245381?text=Hola%20Moto%20Express%2C%20quiero%20sacar%20turno." target="_blank">📲 Pedir turno</a>
+        <a class="btn btn-outline" href="#servicios">Ver servicios</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-card">
+    <img src="images/foto5.jpg" alt="Moto Express - trabajo de mecánica">
+    <div class="hero-badge"><strong>Motos hasta 200cc</strong><span>Servicio automotor especializado</span></div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="eyebrow">Lo que hacemos</div><h2>Servicios para mantener tu moto en condiciones.</h2></div>
+      <p>Una presentación clara para que el cliente vea rápidamente qué puede contratar y consulte por WhatsApp.</p>
+    </div>
+    <div class="grid">
+      <article class="card"><div class="icon">🛢️</div><h3>Cambio de aceite</h3><p>Mantenimiento básico para cuidar el motor y mantener el rendimiento.</p></article>
+      <article class="card"><div class="icon">🛞</div><h3>Ajuste de frenos</h3><p>Revisión y ajuste del sistema de frenos.</p></article>
+      <article class="card"><div class="icon">⛓️</div><h3>Ajuste y lubricación de cadena</h3><p>Regulación y lubricación para un funcionamiento correcto.</p></article>
+      <article class="card"><div class="icon">🔧</div><h3>Control y lubricación de mandos</h3><p>Revisión de los principales mandos y puntos de lubricación.</p></article>
+      <article class="card"><div class="icon">💡</div><h3>Chequeo de luces</h3><p>Control de iluminación y funcionamiento eléctrico básico.</p></article>
+      <article class="card"><div class="icon">🛞</div><h3>Presión de neumáticos</h3><p>Control de presión para una conducción más segura.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="precios" class="band">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="eyebrow">Precios publicados</div><h2>Servicios destacados.</h2></div>
+      <p>Los precios se pueden actualizar fácilmente cuando cambien. Ideal para recibir consultas desde la web.</p>
+    </div>
+    <div class="grid">
+      <article class="card highlight"><h3>Service motos hasta 200cc</h3><div class="price">$50.000 <small>ARS</small></div><p style="margin-top:10px">Incluye cambio de aceite, ajuste de frenos, cadena, mandos, luces y presión de ruedas.</p></article>
+      <article class="card"><h3>Ajuste y lubricación de cadena</h3><div class="price">$15.000 <small>ARS</small></div><p style="margin-top:10px">Servicio específico de regulación y lubricación de cadena.</p></article>
+      <article class="card"><h3>Limpieza de carburador</h3><div class="price">$35.000 <small>ARS</small></div><p style="margin-top:10px">Servicio para motos de hasta 200cc. Precio publicado con promoción.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="trabajos">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="eyebrow">Trabajo real</div><h2>Conocé algunos de nuestros trabajos.</h2></div>
+      <p>Galería con las imágenes del negocio para generar confianza antes de que el cliente escriba.</p>
+    </div>
+    <div class="gallery">
+      <img src="images/foto5.jpg" alt="Moto Express - mecánica">
+      <img src="images/foto1.jpg" alt="Moto Express - service">
+      <img src="images/foto2.jpg" alt="Moto Express - cadena">
+      <img src="images/foto3.jpg" alt="Moto Express - carburador">
+      <img src="images/foto4.jpg" alt="Moto Express - perfil">
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="container cta">
+    <div><div class="eyebrow">¿Necesitás mantenimiento?</div><h2>Consultá por WhatsApp.</h2><p>Mandanos el modelo de tu moto y contanos qué necesita.</p></div>
+    <a class="btn btn-primary" href="https://wa.me/5491153245381?text=Hola%20Moto%20Express%2C%20quiero%20consultar%20por%20mi%20moto." target="_blank">Hablar con Moto Express →</a>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="container">
+    <div class="section-head"><div><div class="eyebrow">Contacto</div><h2>Encontrá y contactá a Moto Express.</h2></div></div>
+    <div class="contact">
+      <div class="contact-card">
+        <h3>Moto Express</h3>
+        <div class="contact-row">📱<div><b>WhatsApp / teléfono</b><span>+54 9 11 5324-5381</span></div></div>
+        <div class="contact-row">📍<div><b>Zona</b><span>Buenos Aires, Argentina</span></div></div>
+        <div class="contact-row">🏍️<div><b>Especialidad</b><span>Servicio automotor para motos hasta 200cc</span></div></div>
+      </div>
+      <div class="contact-card">
+        <h3>¿Querés pedir un turno?</h3>
+        <p style="color:var(--muted);margin:10px 0 22px">Hacé clic y se abre WhatsApp con un mensaje listo para enviar.</p>
+        <a class="btn btn-primary" style="width:100%" href="https://wa.me/5491153245381?text=Hola%20Moto%20Express%2C%20quiero%20pedir%20un%20turno." target="_blank">📲 Pedir turno por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="container">© 2026 Moto Express · Servicio y mantenimiento de motos</div></footer>
+</body>
+</html>
